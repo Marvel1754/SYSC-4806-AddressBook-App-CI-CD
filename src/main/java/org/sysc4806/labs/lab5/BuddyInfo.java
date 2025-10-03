@@ -1,0 +1,139 @@
+package org.sysc4806.labs.lab5;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+/**
+ * The BuddyInfo class holds the information for a buddy.
+ *
+ * @author Marvel Adotse-ogah
+ * @version 2025-09-13
+ */
+@Entity
+public class BuddyInfo {
+    private long id;
+    private String firstname;
+    private String lastname;
+    private String number;
+
+    /**
+     * Default constructor for the BuddyInfo class.
+     */
+    public BuddyInfo() {
+        this.firstname = "John";
+        this.lastname = "Doe";
+        this.number = verifyNumber(1234567890L);
+    }
+
+    /**
+     * The constructor of the BuddyInfo class.
+     * @param firstname The first name of the Buddy.
+     * @param lastname The last name of the Buddy.
+     * @param number The phone number of the Buddy.
+     */
+    public BuddyInfo(String firstname, String lastname, long number) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.number = verifyNumber(number);
+    }
+
+    /**
+     * Verifies the phone number of the Buddy.
+     * @param number The phone number of the Buddy.
+     * @return The phone number of the Buddy.
+     */
+    private String verifyNumber(long number) {
+        String temp = Long.toString(number);
+        if (temp.length() < 10 || temp.length() > 11) {
+            throw new IllegalArgumentException("Number must be between 10 and 11 numbers: no space and/or special characters");
+        } else if (temp.length() == 11 && temp.charAt(0) != '1') {
+            throw new IllegalArgumentException("11 digit Canadian number must start with '1'");
+        }
+        return temp;
+    }
+
+    /**
+     * Gets the name of the Buddy.
+     * @return The name of the Buddy.
+     */
+    public String fullName() {
+        return firstname + " " + lastname;
+    }
+
+    /**
+     * Gets the firstname of the Buddy.
+     * @return The firstname of the Buddy.
+     */
+    public String getFirstname() {
+        return firstname;
+    }
+
+    /**
+     * Gets the lastname of the Buddy.
+     * @return The lastname of the Buddy.
+     */
+    public String getLastname() {
+        return lastname;
+    }
+
+    /**
+     * Gets the phone number of the Buddy.
+     * @return The phone number of the Buddy.
+     */
+    public String getNumber() {
+        return number;
+    }
+
+    /**
+     * Gets the id of the buddy.
+     * @return The id of the buddy.
+     */
+    @Id
+    @GeneratedValue
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id of the buddy.
+     * @param id The new id of the buddy.
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the firstname of the Buddy.
+     * @param firstname The firstname of the Buddy.
+     */
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    /**
+     * Set the lastname of the Buddy.
+     * @param lastname The lastname of the Buddy.
+     */
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    /**
+     * Sets the phone number of the Buddy.
+     * @param number The phone number of the Buddy.
+     */
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String toString() {
+        String temp;
+        if (number.length() == 11) {
+            temp = String.format("+%s (%s) %s-%s", number.charAt(0), number.substring(1, 4), number.substring(4, 7), number.substring(7, 11));
+        } else {
+            temp = String.format("(%s) %s-%s", number.substring(0, 3), number.substring(3, 6), number.substring(6, 10));
+        }
+        return String.format("  Name: %s\nNumber: %s", fullName(), temp);
+    }
+}
