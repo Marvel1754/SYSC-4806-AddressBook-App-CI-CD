@@ -23,13 +23,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
@@ -67,6 +60,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- Needed to differentiate between the AddressBookApp class as the main entry point to the app because AddressBook also has a main method from the previous labs -->
+                <configuration>
+                    <mainClass>org.sysc4806.labs.lab5.AddressBookApp</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
