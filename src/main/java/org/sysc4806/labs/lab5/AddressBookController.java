@@ -41,12 +41,12 @@ public class AddressBookController {
     }
 
     @GetMapping("/add")
-    public AddressBook add(@RequestParam String addressBookName, @RequestParam String firstname, @RequestParam String lastname, @RequestParam Long contactNumber) {
+    public AddressBook add(@RequestParam String addressBookName, @RequestParam String firstname, @RequestParam String lastname, @RequestParam Long contactNumber, @RequestParam(defaultValue = "No Address", required = false) String address) {
         List<AddressBook> temp = repository.findByName(addressBookName);
         AddressBook addressBook;
         if (temp.size() == 1) {
             addressBook = temp.get(0);
-            addressBook.addBuddy(new BuddyInfo(firstname, lastname, contactNumber));
+            addressBook.addBuddy(new BuddyInfo(firstname, lastname, contactNumber, address));
             repository.save(addressBook);
         } else {
             return null;

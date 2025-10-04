@@ -38,7 +38,7 @@ public class AddressBookControllerWebLayerTest {
 
     @Test
     public void testAddCommandWorks() throws Exception {
-        when(controller.add(any(), any(), any(), any())).thenReturn(new AddressBook());
+        when(controller.add(any(), any(), any(), any(), any())).thenReturn(new AddressBook());
         endpointCommand = "/add";
         this.mockMvc.perform(get(endpointCommand)
                 .param("addressBookName", "Test AddressBook")

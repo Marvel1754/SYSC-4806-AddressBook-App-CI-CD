@@ -16,6 +16,7 @@ public class BuddyInfo {
     private String firstname;
     private String lastname;
     private String number;
+    private String address;
 
     /**
      * Default constructor for the BuddyInfo class.
@@ -24,6 +25,7 @@ public class BuddyInfo {
         this.firstname = "John";
         this.lastname = "Doe";
         this.number = verifyNumber(1234567890L);
+        this.address = "Default address";
     }
 
     /**
@@ -36,6 +38,21 @@ public class BuddyInfo {
         this.firstname = firstname;
         this.lastname = lastname;
         this.number = verifyNumber(number);
+        this.address = "No Address";
+    }
+
+    /**
+     * The constructor of the BuddyInfo class
+     * @param firstname The first name of the Buddy.
+     * @param lastname The last name of the Buddy.
+     * @param number The phone number of the Buddy.
+     * @param address The address of the Buddy.
+     */
+    public BuddyInfo(String firstname, String lastname, long number, String address) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.number = verifyNumber(number);
+        this.address = address;
     }
 
     /**
