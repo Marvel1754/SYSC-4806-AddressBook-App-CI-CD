@@ -103,6 +103,14 @@ public class BuddyInfo {
     }
 
     /**
+     * Gets the address of the Buddy.
+     * @return The address of the Buddy.
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
      * Gets the id of the buddy.
      * @return The id of the buddy.
      */
@@ -143,6 +151,12 @@ public class BuddyInfo {
     public void setNumber(String number) {
         this.number = number;
     }
+
+    /**
+     * Sets the address of the Buddy.
+     * @param address The address of the Buddy.
+     */
+    public void setAddress(String address) {this.address = address;}
 
     public String toString() {
         String temp;

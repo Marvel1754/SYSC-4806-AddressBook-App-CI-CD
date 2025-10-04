@@ -2,3 +2,11 @@
 This is a test for the CI on GitHub actions.
 This is another test for CI on GitHub actions.
 This is another test for CI on GitHub actions.
+
+
+/add?addressBookName=AddressBook1&firstname=Marvel&lastname=Ogah&contactNumber=13432623063&address=The%20Moon
+/add?addressBookName=AddressBook2&firstname=John&lastname=Doe&contactNumber=13432623063&address=The%20Sun
+
+/create?name=AddressBook1
+/create?name=AddressBook2
+/create?name=AddressBook3
