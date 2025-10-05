@@ -10,3 +10,10 @@ This is another test for CI on GitHub actions.
 /create?name=AddressBook1
 /create?name=AddressBook2
 /create?name=AddressBook3
+
+/view/add?addressBookName=AddressBook3&firstname=Marvel&lastname=Ogah&contactNumber=13432623063&address=The%20Moon
+/view/add?addressBookName=AddressBook3&firstname=John&lastname=Doe&contactNumber=13432623063&address=The%20Sun
+
+/view/create?name=AddressBook1
+/view/create?name=AddressBook2
+/view/create?name=AddressBook3
