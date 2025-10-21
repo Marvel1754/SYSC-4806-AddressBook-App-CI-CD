@@ -56,7 +56,7 @@ public class AddressBookGUIViewControllerWebLayerTest {
 
     @Test
     public void testCreateCommandWorks() throws Exception {
-        when(controller.create(any(), any())).thenReturn("addressbooks");
+        when(controller.createAddressBook(any(), any())).thenReturn("addressbooks");
         endpointCommand = routing + "/create";
         this.mockMvc.perform(get(endpointCommand)
                 .param("name", "Test AddressBook")).andDo(print()).andExpect(status().isOk());

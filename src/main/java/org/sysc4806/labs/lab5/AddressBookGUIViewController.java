@@ -37,8 +37,20 @@ public class AddressBookGUIViewController {
         return "addressbooks";
     }
 
+    @GetMapping("/create-addressbook-form")
+    public String createAddressBookForm(Model model) {
+        return "create-addressbook-form";
+    }
+
     @GetMapping("/create")
-    public String create(@RequestParam(defaultValue = "New AddressBook") String name, Model model) {
+    public String createAddressBook(@RequestParam(defaultValue = "New AddressBook") String name, Model model) {
+        List<AddressBook> _addbkList = repository.findByName(name);
+        if (!_addbkList.isEmpty()) {
+            List<AddressBook> addressBookList = repository.findAll();
+            model.addAttribute("addressBooks", addressBookList);
+            return "addressbooks";
+        }
+
         AddressBook addressBook = new AddressBook(name);
         repository.save(addressBook);
 
@@ -47,8 +59,18 @@ public class AddressBookGUIViewController {
         return "addressbooks";
     }
 
+    @GetMapping("/add-buddy-form")
+    public String addBuddyForm(Model model) {
+        model.addAttribute("addressbookNames", repository.findAll());
+        return "add-buddy-form";
+    }
+
     @GetMapping("/add")
-    public String add(@RequestParam String addressBookName, @RequestParam String firstname, @RequestParam String lastname, @RequestParam Long contactNumber, @RequestParam(defaultValue = "No Address", required = false) String address, Model model) {
+    public String add(@RequestParam String addressBookName,
+                      @RequestParam String firstname,
+                      @RequestParam String lastname,
+                      @RequestParam Long contactNumber,
+                      @RequestParam(defaultValue = "No Address", required = false) String address, Model model) {
         List<AddressBook> temp = repository.findByName(addressBookName);
         AddressBook addressBook;
         if (temp.size() == 1) {
@@ -63,6 +85,11 @@ public class AddressBookGUIViewController {
         return "buddies";
     }
 
+    @GetMapping("/remove-buddy-form")
+    public  String removeBuddyForm(Model model) {
+        return "remove-buddy-form";
+    }
+
     @GetMapping("/remove")
     public String remove(@RequestParam String addressBookName, @RequestParam Long id, Model model) {
         List<AddressBook> temp = repository.findByName(addressBookName);
@@ -74,6 +101,26 @@ public class AddressBookGUIViewController {
         }
         addressBook.getBuddies().removeIf(p -> p.getId() == id);
         repository.save(addressBook);
+        model.addAttribute("addressBook", addressBook.getName());
+        model.addAttribute("buddies", addressBook.getBuddies());
+        return "buddies";
+    }
+
+    @GetMapping("/buddies-form")
+    public String buddiesForm(Model model) {
+        model.addAttribute("addressbookNames", repository.findAll());
+        return "buddies-form";
+    }
+
+    @GetMapping("/buddies")
+    public String buddies(@RequestParam String addressBookName, Model model) {
+        List<AddressBook> temp = repository.findByName(addressBookName);
+        AddressBook addressBook;
+        if (temp.size() == 1) {
+            addressBook = temp.get(0);
+        } else {
+            return null;
+        }
         model.addAttribute("addressBook", addressBook.getName());
         model.addAttribute("buddies", addressBook.getBuddies());
         return "buddies";

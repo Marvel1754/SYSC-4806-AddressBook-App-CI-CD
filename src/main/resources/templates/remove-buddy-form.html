@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Remove a buddy from an address book</title>
+</head>
+<body>
+    <header th:replace="base :: header"></header>
+
+    <h2>Remove a buddy from an address book</h2>
+    <hr>
+    <form th:action="@{/view/remove}" method="get">
+        <label for="addressBookName">Choose an address book: </label>
+        <select id="addressBookName" name="addressBookName">
+            <option th:each="a : ${addressbookNames}" th:value="${a.name}" th:text="${a.name}"></option>
+        </select><br><br>
+        <label for="firstname">First name: </label>
+        <input id="firstname" name="firstname" type="text" size="50"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

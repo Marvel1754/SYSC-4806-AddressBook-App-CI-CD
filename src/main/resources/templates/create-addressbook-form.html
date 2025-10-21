@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create an Address Book</title>
+</head>
+<body>
+    <header th:replace="base :: header"></header>
+
+    <h2>Create an AddressBook</h2>
+    <hr>
+    <form th:action="@{/view/create}" method="get">
+        <label for="name">Address Book Name: </label>
+        <input id="name" name="name" type="text" size="30"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>
