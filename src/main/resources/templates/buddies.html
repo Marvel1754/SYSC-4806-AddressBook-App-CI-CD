@@ -5,26 +5,25 @@
     <title>Buddy Infos</title>
 </head>
 <body>
-<div th:replace="base :: content">
-    <h1 th:text="|${addressBook} Buddies|"></h1>
-    <p>  </p>
-    <hr>
-    <table border="1">
-        <tr>
-            <th>Id</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Contact</th>
-            <th>Address</th>
-        </tr>
-        <tr th:each="buddy: ${buddies}">
-            <td th:text="${buddy.id}"></td>
-            <td th:text="${buddy.firstname}"></td>
-            <td th:text="${buddy.lastname}"></td>
-            <td th:text="${buddy.number}"></td>
-            <td th:text="${buddy.address}"></td>
-        </tr>
-    </table>
-</div>
+<header th:replace="base :: header"></header>
+<h1 th:text="|${addressBook} Buddies|"></h1>
+<p>  </p>
+<hr>
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Contact</th>
+        <th>Address</th>
+    </tr>
+    <tr th:each="buddy: ${buddies}">
+        <td th:text="${buddy.id}"></td>
+        <td th:text="${buddy.firstname}"></td>
+        <td th:text="${buddy.lastname}"></td>
+        <td th:text="${buddy.number}"></td>
+        <td th:text="${buddy.address}"></td>
+    </tr>
+</table>
 </body>
 </html>

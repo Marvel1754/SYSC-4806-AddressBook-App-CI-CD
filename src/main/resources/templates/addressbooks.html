@@ -5,7 +5,7 @@
     <title>Address Books</title>
 </head>
 <body>
-<div th:replace="base :: content">
+<header th:replace="base :: header"></header>
     <h1>Available Address Books</h1>
     <p>  </p>
     <hr>
@@ -17,6 +17,5 @@
             <td th:text="${addressBook.name}"></td>
         </tr>
     </table>
-</div>
 </body>
 </html>
