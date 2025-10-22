@@ -13,7 +13,7 @@ import java.util.List;
  * The AddressBookGUIViewController class responds with viable html content.
  *
  * @author Marvel Adotse-ogah
- * @version 2025-09-29
+ * @version 2025-10-22
  */
 @Controller
 @RequestMapping("/view")
@@ -44,16 +44,11 @@ public class AddressBookGUIViewController {
 
     @GetMapping("/create")
     public String createAddressBook(@RequestParam(defaultValue = "New AddressBook") String name, Model model) {
-        List<AddressBook> _addbkList = repository.findByName(name);
-        if (!_addbkList.isEmpty()) {
-            List<AddressBook> addressBookList = repository.findAll();
-            model.addAttribute("addressBooks", addressBookList);
-            return "addressbooks";
+        List<AddressBook> _alreadyExistingAddBk = repository.findByName(name);
+        if (_alreadyExistingAddBk.isEmpty()) {
+            AddressBook addressBook = new AddressBook(name);
+            repository.save(addressBook);
         }
-
-        AddressBook addressBook = new AddressBook(name);
-        repository.save(addressBook);
-
         List<AddressBook> addressBookList = repository.findAll();
         model.addAttribute("addressBooks", addressBookList);
         return "addressbooks";
@@ -72,14 +67,9 @@ public class AddressBookGUIViewController {
                       @RequestParam Long contactNumber,
                       @RequestParam(defaultValue = "No Address", required = false) String address, Model model) {
         List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook;
-        if (temp.size() == 1) {
-            addressBook = temp.get(0);
-            addressBook.addBuddy(new BuddyInfo(firstname, lastname, contactNumber, address));
-            repository.save(addressBook);
-        } else {
-            return null;
-        }
+        AddressBook addressBook = temp.get(0);
+        addressBook.addBuddy(new BuddyInfo(firstname, lastname, contactNumber, address));
+        repository.save(addressBook);
         model.addAttribute("addressBook", addressBook.getName());
         model.addAttribute("buddies", addressBook.getBuddies());
         return "buddies";
@@ -93,12 +83,7 @@ public class AddressBookGUIViewController {
     @GetMapping("/remove")
     public String remove(@RequestParam String addressBookName, @RequestParam Long id, Model model) {
         List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook;
-        if (temp.size() == 1) {
-            addressBook = temp.get(0);
-        } else {
-            return null;
-        }
+        AddressBook addressBook = temp.get(0);
         addressBook.getBuddies().removeIf(p -> p.getId() == id);
         repository.save(addressBook);
         model.addAttribute("addressBook", addressBook.getName());
@@ -115,12 +100,7 @@ public class AddressBookGUIViewController {
     @GetMapping("/buddies")
     public String buddies(@RequestParam String addressBookName, Model model) {
         List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook;
-        if (temp.size() == 1) {
-            addressBook = temp.get(0);
-        } else {
-            return null;
-        }
+        AddressBook addressBook = temp.get(0);
         model.addAttribute("addressBook", addressBook.getName());
         model.addAttribute("buddies", addressBook.getBuddies());
         return "buddies";

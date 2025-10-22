@@ -35,34 +35,32 @@ public class AddressBookController {
 
     @GetMapping("/create")
     public AddressBook create(@RequestParam(defaultValue = "New AddressBook") String name) {
-        AddressBook addressBook = new AddressBook(name);
-        repository.save(addressBook);
-        return addressBook;
+        List<AddressBook> _addbkList = repository.findByName(name);
+        if (!_addbkList.isEmpty()) {
+            AddressBook addressBook = new AddressBook(name);
+            repository.save(addressBook);
+        }
+        List<AddressBook> createdAddressBook = repository.findByName(name);
+        return createdAddressBook.get(0);
     }
 
     @GetMapping("/add")
-    public AddressBook add(@RequestParam String addressBookName, @RequestParam String firstname, @RequestParam String lastname, @RequestParam Long contactNumber, @RequestParam(defaultValue = "No Address", required = false) String address) {
+    public AddressBook add(@RequestParam String addressBookName,
+                           @RequestParam String firstname,
+                           @RequestParam String lastname,
+                           @RequestParam Long contactNumber,
+                           @RequestParam(defaultValue = "No Address", required = false) String address) {
         List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook;
-        if (temp.size() == 1) {
-            addressBook = temp.get(0);
-            addressBook.addBuddy(new BuddyInfo(firstname, lastname, contactNumber, address));
-            repository.save(addressBook);
-        } else {
-            return null;
-        }
+        AddressBook addressBook = temp.get(0);
+        addressBook.addBuddy(new BuddyInfo(firstname, lastname, contactNumber, address));
+        repository.save(addressBook);
         return addressBook;
     }
 
     @GetMapping("/remove")
     public AddressBook remove(@RequestParam String addressBookName, @RequestParam() Long id) {
         List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook;
-        if (temp.size() == 1) {
-            addressBook = temp.get(0);
-        } else {
-            return null;
-        }
+        AddressBook addressBook = temp.get(0);
         addressBook.getBuddies().removeIf(p -> p.getId() == id);
         repository.save(addressBook);
         return addressBook;

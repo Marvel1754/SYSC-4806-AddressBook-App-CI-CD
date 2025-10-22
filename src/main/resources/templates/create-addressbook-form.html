@@ -5,13 +5,13 @@
     <title>Create an Address Book</title>
 </head>
 <body>
-    <header th:replace="base :: header"></header>
+    <header th:replace="~{base :: header}"></header>
 
     <h2>Create an AddressBook</h2>
     <hr>
     <form th:action="@{/view/create}" method="get">
         <label for="name">Address Book Name: </label>
-        <input id="name" name="name" type="text" size="30"><br>
+        <input id="name" name="name" type="text" size="30"><br><br>
         <input type="submit" value="Submit">
     </form>
 

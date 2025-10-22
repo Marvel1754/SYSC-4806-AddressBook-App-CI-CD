@@ -5,12 +5,11 @@
     <title>Address Books</title>
 </head>
 <body>
-    <header th:replace="base :: header"></header>
+    <header th:replace="~{base :: header}"></header>
     <h1>Available Address Books</h1>
-    <br>
     <hr>
     <div>
-        <strong>Actions:</strong> <br>
+        <strong>Actions:</strong><br><br>
         <form action="/view/" method="get">
             <button type="submit" formaction="/view/create-addressbook-form">Create address book</button><br><br>
             <button type="submit" formaction="/view/add-buddy-form">Add buddy to address book</button><br><br>
