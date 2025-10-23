@@ -6,16 +6,18 @@
 </head>
 <body>
     <header th:replace="~{base :: header}"></header>
+    <script src="/js/buddies-form-display.js"></script>
 
     <h2>Get address book buddies</h2>
     <hr>
-    <form action="/view/buddies" method="get">
+    <form id="buddies-form" action="/view/buddies" method="get">
         <label for="addressBookName">Choose an address book: </label>
         <select id="addressBookName" name="addressBookName">
             <option th:each="a : ${addressbookNames}" th:value="${a.name}" th:text="${a.name}"></option>
         </select><br><br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="return showBuddies(document.getElementById('addressBookName').value)">
     </form>
-
+    <hr>
+    <div id="buddies-table"></div>
 </body>
 </html>

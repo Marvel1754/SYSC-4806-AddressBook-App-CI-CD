@@ -6,17 +6,21 @@
 </head>
 <body>
     <header th:replace="~{base :: header}"></header>
+    <script src="/js/buddies-form-display.js"></script>
 
     <h2>Remove a buddy from an address book</h2>
     <hr>
-    <form th:action="@{/view/remove}" method="get">
+    <form id="remove-buddy-form" action="/view/remove" method="get">
         <label for="addressBookName">Choose an address book: </label>
-        <select id="addressBookName" name="addressBookName">
+        <select id="addressBookName" name="addressBookName" autofocus onfocus="removeBuddyOptions(document.getElementById('addressBookName').value)">
             <option th:each="a : ${addressbookNames}" th:value="${a.name}" th:text="${a.name}"></option>
         </select><br><br>
-        <label for="firstname">First name: </label>
-        <input id="firstname" name="firstname" type="text" size="50"><br><br>
-        <input type="submit" value="Submit">
+        <label for="id">Choose the buddy to remove: </label>
+        <select id="id" name="id"></select><br><br>
+        <input type="submit" value="Submit" onclick="return removeAndShowBuddy(document.getElementById('addressBookName').value)">
     </form>
+    <hr>
+    <p id="response-preamble" hidden><i>The removed buddy is:</i></p>
+    <div id="remove-buddies-table"></div>
 </body>
 </html>

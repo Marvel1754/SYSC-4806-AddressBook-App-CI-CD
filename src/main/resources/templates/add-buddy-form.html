@@ -6,10 +6,11 @@
 </head>
 <body>
     <header th:replace="~{base :: header}"></header>
+    <script src="/js/buddies-form-display.js"></script>
 
     <h2>Add a buddy to an address book</h2>
     <hr>
-    <form th:action="@{/view/add}" method="get">
+    <form id="add-buddy-form" action="/view/add" method="get">
         <label for="addressBookName">Choose an address book: </label>
         <select id="addressBookName" name="addressBookName">
             <option th:each="a : ${addressbookNames}" th:value="${a.name}" th:text="${a.name}"></option>
@@ -22,8 +23,10 @@
         <input id="contactNumber" name="contactNumber" type="number" maxlength="11" size="11"><br><br>
         <label for="address">Address: </label>
         <input id="address" name="address" type="text" size="80"><br><br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="return addAndShowBuddy(document.getElementById('addressBookName').value)">
     </form>
-
+    <hr>
+    <p id="response-preamble" hidden><i>The added buddy is:</i></p>
+    <div id="add-buddies-table"></div>
 </body>
 </html>

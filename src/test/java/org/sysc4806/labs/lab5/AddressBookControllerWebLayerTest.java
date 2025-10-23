@@ -38,7 +38,7 @@ public class AddressBookControllerWebLayerTest {
 
     @Test
     public void testAddCommandWorks() throws Exception {
-        when(controller.add(any(), any(), any(), any(), any())).thenReturn(new AddressBook());
+        when(controller.add(any(), any(), any(), any(), any())).thenReturn(new BuddyInfo());
         endpointCommand = "/add";
         this.mockMvc.perform(get(endpointCommand)
                 .param("addressBookName", "Test AddressBook")
@@ -64,7 +64,7 @@ public class AddressBookControllerWebLayerTest {
 
     @Test
     public void testRemoveCommandWorks() throws Exception {
-        when(controller.remove(any(), any())).thenReturn(new AddressBook());
+        when(controller.remove(any(), any())).thenReturn(new BuddyInfo());
         endpointCommand = "/remove";
         this.mockMvc.perform(get(endpointCommand)
                 .param("addressBookName", "Test AddressBook")

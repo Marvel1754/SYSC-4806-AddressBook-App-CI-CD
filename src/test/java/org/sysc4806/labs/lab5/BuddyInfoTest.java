@@ -13,11 +13,11 @@ public class BuddyInfoTest {
 
         BuddyInfo buddyInfo1 = new BuddyInfo("John", "Doe", 1234567890L);
         assertEquals("John Doe", buddyInfo1.fullName());
-        assertEquals("1234567890", buddyInfo1.getNumber());
+        assertEquals("1234567890", buddyInfo1.getPhoneNumber());
 
         BuddyInfo buddyInfo2 = new BuddyInfo("John", "Doe", 12345678901L);
         assertEquals("John Doe", buddyInfo2.fullName());
-        assertEquals("12345678901", buddyInfo2.getNumber());
+        assertEquals("12345678901", buddyInfo2.getPhoneNumber());
     }
 
     @Test

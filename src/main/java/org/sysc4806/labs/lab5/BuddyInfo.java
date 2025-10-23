@@ -15,7 +15,7 @@ public class BuddyInfo {
     private long id;
     private String firstname;
     private String lastname;
-    private String number;
+    private String phoneNumber;
     private String address;
 
     /**
@@ -24,7 +24,7 @@ public class BuddyInfo {
     public BuddyInfo() {
         this.firstname = "John";
         this.lastname = "Doe";
-        this.number = verifyNumber(1234567890L);
+        this.phoneNumber = verifyNumber(1234567890L);
         this.address = "Default address";
     }
 
@@ -32,12 +32,12 @@ public class BuddyInfo {
      * The constructor of the BuddyInfo class.
      * @param firstname The first name of the Buddy.
      * @param lastname The last name of the Buddy.
-     * @param number The phone number of the Buddy.
+     * @param phoneNumber The phone number of the Buddy.
      */
-    public BuddyInfo(String firstname, String lastname, long number) {
+    public BuddyInfo(String firstname, String lastname, long phoneNumber) {
         this.firstname = firstname;
         this.lastname = lastname;
-        this.number = verifyNumber(number);
+        this.phoneNumber = verifyNumber(phoneNumber);
         this.address = "No Address";
     }
 
@@ -45,13 +45,13 @@ public class BuddyInfo {
      * The constructor of the BuddyInfo class
      * @param firstname The first name of the Buddy.
      * @param lastname The last name of the Buddy.
-     * @param number The phone number of the Buddy.
+     * @param phoneNumber The phone number of the Buddy.
      * @param address The address of the Buddy.
      */
-    public BuddyInfo(String firstname, String lastname, long number, String address) {
+    public BuddyInfo(String firstname, String lastname, long phoneNumber, String address) {
         this.firstname = firstname;
         this.lastname = lastname;
-        this.number = verifyNumber(number);
+        this.phoneNumber = verifyNumber(phoneNumber);
         this.address = address;
     }
 
@@ -98,8 +98,8 @@ public class BuddyInfo {
      * Gets the phone number of the Buddy.
      * @return The phone number of the Buddy.
      */
-    public String getNumber() {
-        return number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     /**
@@ -146,10 +146,10 @@ public class BuddyInfo {
 
     /**
      * Sets the phone number of the Buddy.
-     * @param number The phone number of the Buddy.
+     * @param phoneNumber The phone number of the Buddy.
      */
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     /**
@@ -160,10 +160,10 @@ public class BuddyInfo {
 
     public String toString() {
         String temp;
-        if (number.length() == 11) {
-            temp = String.format("+%s (%s) %s-%s", number.charAt(0), number.substring(1, 4), number.substring(4, 7), number.substring(7, 11));
+        if (phoneNumber.length() == 11) {
+            temp = String.format("+%s (%s) %s-%s", phoneNumber.charAt(0), phoneNumber.substring(1, 4), phoneNumber.substring(4, 7), phoneNumber.substring(7, 11));
         } else {
-            temp = String.format("(%s) %s-%s", number.substring(0, 3), number.substring(3, 6), number.substring(6, 10));
+            temp = String.format("(%s) %s-%s", phoneNumber.substring(0, 3), phoneNumber.substring(3, 6), phoneNumber.substring(6, 10));
         }
         return String.format("  Name: %s\nNumber: %s", fullName(), temp);
     }

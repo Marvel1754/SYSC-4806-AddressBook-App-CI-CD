@@ -12,7 +12,7 @@ import java.util.List;
  * The AddressBookController class handles the HTTP requests.
  *
  * @author Marvel Adotse-ogah
- * @version 2025-09-29
+ * @version 2025-10-22
  */
 @RestController
 public class AddressBookController {
@@ -45,24 +45,38 @@ public class AddressBookController {
     }
 
     @GetMapping("/add")
-    public AddressBook add(@RequestParam String addressBookName,
+    public BuddyInfo add(@RequestParam String addressBookName,
                            @RequestParam String firstname,
                            @RequestParam String lastname,
                            @RequestParam Long contactNumber,
                            @RequestParam(defaultValue = "No Address", required = false) String address) {
         List<AddressBook> temp = repository.findByName(addressBookName);
         AddressBook addressBook = temp.get(0);
-        addressBook.addBuddy(new BuddyInfo(firstname, lastname, contactNumber, address));
+        BuddyInfo newBuddy = new BuddyInfo(firstname, lastname, contactNumber, address);
+        addressBook.addBuddy(newBuddy);
         repository.save(addressBook);
-        return addressBook;
+        return newBuddy;
     }
 
     @GetMapping("/remove")
-    public AddressBook remove(@RequestParam String addressBookName, @RequestParam() Long id) {
+    public BuddyInfo remove(@RequestParam String addressBookName, @RequestParam() Long id) {
         List<AddressBook> temp = repository.findByName(addressBookName);
         AddressBook addressBook = temp.get(0);
+        BuddyInfo removedBuddyInfo = new BuddyInfo();
+        for (BuddyInfo buddy : addressBook.getBuddies()) {
+            if (buddy.getId() == id) {
+                removedBuddyInfo = buddy;
+            }
+        }
         addressBook.getBuddies().removeIf(p -> p.getId() == id);
         repository.save(addressBook);
-        return addressBook;
+        return removedBuddyInfo;
+    }
+
+    @GetMapping("/buddies")
+    public List<BuddyInfo> buddies(@RequestParam String addressBookName) {
+        List<AddressBook> temp = repository.findByName(addressBookName);
+        AddressBook addressBook = temp.get(0);
+        return addressBook.getBuddies();
     }
 }

@@ -77,6 +77,7 @@ public class AddressBookGUIViewController {
 
     @GetMapping("/remove-buddy-form")
     public  String removeBuddyForm(Model model) {
+        model.addAttribute("addressbookNames", repository.findAll());
         return "remove-buddy-form";
     }
 
