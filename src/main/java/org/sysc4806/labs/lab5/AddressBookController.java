@@ -16,11 +16,11 @@ import java.util.List;
  */
 @RestController
 public class AddressBookController {
-    private AddressBookRepository repository;
+    private AddressBookManagerService aBkManagerService;
 
     @Autowired
-    public AddressBookController(AddressBookRepository repository) {
-        this.repository = repository;
+    public AddressBookController(AddressBookManagerService addressBookManagerService) {
+        this.aBkManagerService = addressBookManagerService;
     }
 
     @GetMapping("/")
@@ -30,18 +30,12 @@ public class AddressBookController {
 
     @GetMapping("/addressbooks")
     public List<AddressBook> addressBooks() {
-        return repository.findAll();
+        return aBkManagerService.getAddressBooks();
     }
 
     @GetMapping("/create")
     public AddressBook create(@RequestParam(defaultValue = "New AddressBook") String name) {
-        List<AddressBook> _addbkList = repository.findByName(name);
-        if (!_addbkList.isEmpty()) {
-            AddressBook addressBook = new AddressBook(name);
-            repository.save(addressBook);
-        }
-        List<AddressBook> createdAddressBook = repository.findByName(name);
-        return createdAddressBook.get(0);
+        return aBkManagerService.createAddressBook(name);
     }
 
     @GetMapping("/add")
@@ -50,33 +44,16 @@ public class AddressBookController {
                            @RequestParam String lastname,
                            @RequestParam Long contactNumber,
                            @RequestParam(defaultValue = "No Address", required = false) String address) {
-        List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook = temp.get(0);
-        BuddyInfo newBuddy = new BuddyInfo(firstname, lastname, contactNumber, address);
-        addressBook.addBuddy(newBuddy);
-        repository.save(addressBook);
-        return newBuddy;
+        return aBkManagerService.addBuddyToAddressBook(addressBookName, firstname, lastname, contactNumber, address);
     }
 
     @GetMapping("/remove")
     public BuddyInfo remove(@RequestParam String addressBookName, @RequestParam() Long id) {
-        List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook = temp.get(0);
-        BuddyInfo removedBuddyInfo = new BuddyInfo();
-        for (BuddyInfo buddy : addressBook.getBuddies()) {
-            if (buddy.getId() == id) {
-                removedBuddyInfo = buddy;
-            }
-        }
-        addressBook.getBuddies().removeIf(p -> p.getId() == id);
-        repository.save(addressBook);
-        return removedBuddyInfo;
+        return aBkManagerService.removeBuddyFromAddressBook(addressBookName, id);
     }
 
     @GetMapping("/buddies")
     public List<BuddyInfo> buddies(@RequestParam String addressBookName) {
-        List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook = temp.get(0);
-        return addressBook.getBuddies();
+        return aBkManagerService.getBuddiesInAddressBook(addressBookName);
     }
 }

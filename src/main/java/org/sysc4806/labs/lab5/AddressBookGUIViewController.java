@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 /**
  * The AddressBookGUIViewController class responds with viable html content.
  *
@@ -18,11 +16,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/view")
 public class AddressBookGUIViewController {
-    private AddressBookRepository repository;
+    private AddressBookManagerService aBkManagerService;
 
     @Autowired
-    public AddressBookGUIViewController(AddressBookRepository repository) {
-        this.repository = repository;
+    public AddressBookGUIViewController(AddressBookManagerService addressBookManagerService) {
+        this.aBkManagerService = addressBookManagerService;
     }
 
     @GetMapping("/")
@@ -32,8 +30,7 @@ public class AddressBookGUIViewController {
 
     @GetMapping("/addressbooks")
     public String addressBooks(Model model) {
-        List<AddressBook> addressBookList = repository.findAll();
-        model.addAttribute("addressBooks", addressBookList);
+        model.addAttribute("addressBooks", aBkManagerService.getAddressBooks());
         return "addressbooks";
     }
 
@@ -44,19 +41,14 @@ public class AddressBookGUIViewController {
 
     @GetMapping("/create")
     public String createAddressBook(@RequestParam(defaultValue = "New AddressBook") String name, Model model) {
-        List<AddressBook> _alreadyExistingAddBk = repository.findByName(name);
-        if (_alreadyExistingAddBk.isEmpty()) {
-            AddressBook addressBook = new AddressBook(name);
-            repository.save(addressBook);
-        }
-        List<AddressBook> addressBookList = repository.findAll();
-        model.addAttribute("addressBooks", addressBookList);
+        aBkManagerService.createAddressBook(name);
+        model.addAttribute("addressBooks", aBkManagerService.getAddressBooks());
         return "addressbooks";
     }
 
     @GetMapping("/add-buddy-form")
     public String addBuddyForm(Model model) {
-        model.addAttribute("addressbookNames", repository.findAll());
+        model.addAttribute("addressbookNames", aBkManagerService.getAddressBooks());
         return "add-buddy-form";
     }
 
@@ -66,10 +58,8 @@ public class AddressBookGUIViewController {
                       @RequestParam String lastname,
                       @RequestParam Long contactNumber,
                       @RequestParam(defaultValue = "No Address", required = false) String address, Model model) {
-        List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook = temp.get(0);
-        addressBook.addBuddy(new BuddyInfo(firstname, lastname, contactNumber, address));
-        repository.save(addressBook);
+        aBkManagerService.addBuddyToAddressBook(addressBookName, firstname, lastname, contactNumber, address);
+        AddressBook addressBook = aBkManagerService.getAddressBook(addressBookName);
         model.addAttribute("addressBook", addressBook.getName());
         model.addAttribute("buddies", addressBook.getBuddies());
         return "buddies";
@@ -77,16 +67,14 @@ public class AddressBookGUIViewController {
 
     @GetMapping("/remove-buddy-form")
     public  String removeBuddyForm(Model model) {
-        model.addAttribute("addressbookNames", repository.findAll());
+        model.addAttribute("addressbookNames", aBkManagerService.getAddressBooks());
         return "remove-buddy-form";
     }
 
     @GetMapping("/remove")
     public String remove(@RequestParam String addressBookName, @RequestParam Long id, Model model) {
-        List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook = temp.get(0);
-        addressBook.getBuddies().removeIf(p -> p.getId() == id);
-        repository.save(addressBook);
+        aBkManagerService.removeBuddyFromAddressBook(addressBookName, id);
+        AddressBook addressBook = aBkManagerService.getAddressBook(addressBookName);
         model.addAttribute("addressBook", addressBook.getName());
         model.addAttribute("buddies", addressBook.getBuddies());
         return "buddies";
@@ -94,14 +82,13 @@ public class AddressBookGUIViewController {
 
     @GetMapping("/buddies-form")
     public String buddiesForm(Model model) {
-        model.addAttribute("addressbookNames", repository.findAll());
+        model.addAttribute("addressbookNames", aBkManagerService.getAddressBooks());
         return "buddies-form";
     }
 
     @GetMapping("/buddies")
     public String buddies(@RequestParam String addressBookName, Model model) {
-        List<AddressBook> temp = repository.findByName(addressBookName);
-        AddressBook addressBook = temp.get(0);
+        AddressBook addressBook = aBkManagerService.getAddressBook(addressBookName);
         model.addAttribute("addressBook", addressBook.getName());
         model.addAttribute("buddies", addressBook.getBuddies());
         return "buddies";

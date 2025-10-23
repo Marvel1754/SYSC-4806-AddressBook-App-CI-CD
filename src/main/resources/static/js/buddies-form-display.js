@@ -82,11 +82,10 @@ function convertToTable(jsonString) {
 function convertToSingleRow(jsonString) {
     let response = JSON.parse(jsonString);
     var table = "";
-    var tableHeader = "<tr><th>Id</th><th>Firstname</th><th>Lastname</th><th>Contact</th><th>Address</th></tr>";
+    var tableHeader = "<tr><th>Firstname</th><th>Lastname</th><th>Contact</th><th>Address</th></tr>";
 
     table += "<table border='1'>" + tableHeader;
     table += "<tr>" +
-        "<td>" + response.id + "</td>" +
         "<td>" + response.firstname + "</td>" +
         "<td>" + response.lastname + "</td>" +
         "<td>" + response.phoneNumber + "</td>" +
