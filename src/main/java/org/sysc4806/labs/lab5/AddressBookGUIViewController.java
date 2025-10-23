@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * The AddressBookGUIViewController class responds with viable html content.
  *
  * @author Marvel Adotse-ogah
- * @version 2025-10-22
+ * @version 2025-10-23
  */
 @Controller
 @RequestMapping("/view")
